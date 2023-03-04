@@ -14,6 +14,25 @@ const hexDigits = ['F','E','D','C','B','A','9','8','7','6','5','4','3','2','1','
 const backg = document.querySelector('.container');
 const spanColor = document.querySelector('.bc-span');
 
+const equivHex = {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "A": 10,
+    "B": 11,
+    "C": 12,
+    "D": 13,
+    "E": 14,
+    "F": 15,
+};
+
 export function getHexColor(){
     let hexad = '#'
     for (let index = 0; index < 6; index++) {
@@ -64,33 +83,28 @@ function aclararColor(hexColorFilter){
     if (cantF == 4){
         let randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
         let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-        hexad = hexColorFilter.replaceAll('FF',`${hexDigits[randomNumber]+hexDigits[randomNumber2]}`)
+        hexad = hexColorFilter.replaceAll('FF',`${hexDigits[randomNumber]+hexDigits[randomNumber2]}`) //dESDE EL 3
         backg.style.backgroundColor = hexad;
         spanColor.textContent = hexad;
 
     //Si tiene 2 es un color primario
     }else if (cantF == 2){ 
         //Aclarar en Y
-        let randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
+        let randomNumber = Math.floor(Math.random() * ((hexDigits.slice(4).length))); //es decir solo 13 colores
         let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-  
-        hexColorFilter.replace('FF',`${hexDigits[randomNumber]+hexDigits[randomNumber2]}`)
-        //Aclarar en X
-        randomNumber = Math.floor(Math.random() * ((hexDigits.slice(4).length)));
-        randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-        hexad = hexColorFilter.replaceAll('00',`${hexDigits.slice(3)[randomNumber]+hexDigits[randomNumber2]}`)
-        backg.style.backgroundColor = hexad;
-        spanColor.textContent = hexad;
+        let hexadClarifyY = hexColorFilter.replace('FF',`${hexDigits.reverse().slice(3)[randomNumber]+hexDigits[randomNumber2]}`) // Desde F a 3
+
+        backg.style.backgroundColor = hexadClarifyY;
+        spanColor.textContent = hexadClarifyY;
 
     // Si no tiene es color negro
     }else if(cantF == 0){
         let randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
         let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-
+        hexad = '#';
         hexad += `${hexDigits[randomNumber]+hexDigits[randomNumber2]}`
         hexad += `${hexDigits[randomNumber]+hexDigits[randomNumber2]}`
         hexad += `${hexDigits[randomNumber]+hexDigits[randomNumber2]}`
-        
         backg.style.backgroundColor = hexad;
         spanColor.textContent = hexad;
     }
