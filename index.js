@@ -22,7 +22,30 @@ const violetFilter =document.querySelector('.violet');
 const blackFilter =document.querySelector('.black');
 const filtersArray = [redFilter,blueFilter,violetFilter,lightblueFilter,greenFilter,yellowFilter,blackFilter];
 
+async function copyCode(){
+    let textToCopy = spanColor.textContent
+    try{
+        let previuosCopyClipboard = await navigator.clipboard.readText();
+        if(previuosCopyClipboard == textToCopy){
+    
+        }else{
+            await navigator.clipboard.writeText(textToCopy);
+            let modalCopy =document.createElement('DIV')
+            modalCopy.innerHTML = 'Copied to the Clipboard!'
+            modalCopy.classList.add('modal-copy-active')
+            spanColor.classList.toggle('modal-copy-already')
+            spanColor.appendChild(modalCopy)
+            setTimeout(()=>{
+                spanColor.removeChild(modalCopy)
+            },1000)
+        }
+        
 
+
+    }catch(err){
+        console.log('No se ha podido copiar al portapapeles: ',err);
+    }
+}
 function getUnderLine(e){
 
     for (let button of [simpleButton,hexButton,searchButton]){
@@ -96,4 +119,6 @@ searchButton.addEventListener('click', (e)=>{
     btnClickMe.addEventListener('click',getSearchedColor);
 
 });
+
+spanColor.addEventListener('click',copyCode);
 

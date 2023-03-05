@@ -110,7 +110,13 @@ nav{
 }
 
 .bc-span{
+    position: relative;
     color: rgb(184, 163, 246);
+}
+span:hover{
+    cursor: pointer;
+    color: rgb(118, 103, 165);
+
 }
 .filter:hover{
     cursor: pointer;
@@ -128,4 +134,19 @@ nav{
         border-width: auto;
 
     }   
-}  
+}
+.modal-copy-active{
+    position: absolute;
+    bottom: -2.5rem;
+    right: 0;
+    padding: .2rem;
+    color: black;
+    font-size: .6rem;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    transition: all .3s ease;
+}
+.modal-copy-active:hover{
+    cursor: auto;
+}
+
