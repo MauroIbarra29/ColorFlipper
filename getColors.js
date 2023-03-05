@@ -1,4 +1,4 @@
-import {colors, colorsArray, nameColors} from './constantes.js'
+import {colors, colorsArray, nameColors} from './constants.js'
 
 const filtersDiv = document.querySelector('.nav-filtros');
 const redFilter =document.querySelector('.red');
@@ -54,7 +54,7 @@ export function getSearchedColor(){
     const filterNames = ['red','blue','yellow','green','aqua','violet','black'];
     let hexColorFilter;
 
-    //Obtengo en formato hexCode el codigo del filtro elegido
+    //Get the hexCode format by the selectioned filter
     for (let active of filtersArray){
         if (active.classList.contains('filter-active')){
             let colorName = active.classList[1]
@@ -63,44 +63,74 @@ export function getSearchedColor(){
         }
     }
 
-    if (hexColorFilter == undefined){ // Si no le activo un filtro, corre el codigo hexadecimal
+    if (hexColorFilter == undefined){ // if any filter is currently active, call the getHexColor()
         getHexColor()
     }else{
-        aclararColor(hexColorFilter)
+        clarifyColor(hexColorFilter)
     }
 }
+function clarifyColor(hexColorFilter){
+    let hexad,intensity,randomNumber,randomNumber2,hexadClarifyY,hexadClarifyX;
+    let hexDigits2 =['F','E','D','C','B','A','9','8','7','6','5','4','3','2','1','0']
+    let colorArray = hexColorFilter.split('').slice(1); // Convert the selectiones hexCode in a array
 
-function aclararColor(hexColorFilter){
-    let hexad ;
-    let colorArray = hexColorFilter.split('').slice(1); // Convierto el codigo a array
-
-    //Cuento la cantidad de F
+    //Count the number of F's 
     let cantF = colorArray.filter(function(valor){
         return valor == 'F'
     }).length
     
-    //Si tiene 4 es un color secundario
+    //if it's has 4 F, it's a secondary color
     if (cantF == 4){
-        let randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
-        let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-        hexad = hexColorFilter.replaceAll('FF',`${hexDigits[randomNumber]+hexDigits[randomNumber2]}`) //dESDE EL 3
-        backg.style.backgroundColor = hexad;
-        spanColor.textContent = hexad;
+        //Clarify in Y
+        randomNumber = Math.floor(Math.random() * ((hexDigits2.slice(3).length))); // Until 13 digits
+        randomNumber2 = Math.floor(Math.random() * (hexDigits2.length));
+        hexadClarifyY = hexColorFilter.replaceAll('FF',`${hexDigits2[randomNumber]+hexDigits2[randomNumber2]}`) //From 3
 
-    //Si tiene 2 es un color primario
-    }else if (cantF == 2){ 
+        //Clarify  in X
+        intensity = hexDigits2[randomNumber]
+        if (intensity <= 2){
+            hexadClarifyX = hexadClarifyY.replaceAll('00',`00`)
+            hexad = hexadClarifyX
+            backg.style.backgroundColor = hexad;
+            spanColor.textContent = hexad;
+        }else{
+            randomNumber = Math.floor(Math.random() * ((equivHex[intensity] -2) < 0 ? 0 : equivHex[intensity] -2))
+            randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
+            hexadClarifyX = hexadClarifyY.replace('00',`${hexDigits2.slice(hexDigits2.indexOf(intensity)+3)[randomNumber]+hexDigits2[randomNumber2]}`)
+            hexad = hexadClarifyX
+            backg.style.backgroundColor = hexad;
+            spanColor.textContent = hexad;
+        }
+
+    //if it's has 2 F, it's a primary color
+    }else if (cantF == 2){
         //Aclarar en Y
-        let randomNumber = Math.floor(Math.random() * ((hexDigits.slice(4).length))); //es decir solo 13 colores
-        let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
-        let hexadClarifyY = hexColorFilter.replace('FF',`${hexDigits.reverse().slice(3)[randomNumber]+hexDigits[randomNumber2]}`) // Desde F a 3
+        randomNumber = Math.floor(Math.random() * ((hexDigits2.slice(4).length))); //just 12 digits
+        randomNumber2 = Math.floor(Math.random() * (hexDigits2.length));
+        hexadClarifyY = hexColorFilter.replace('FF',`${hexDigits.reverse().slice(3)[randomNumber]+hexDigits[randomNumber2]}`) // From F to 3
 
-        backg.style.backgroundColor = hexadClarifyY;
-        spanColor.textContent = hexadClarifyY;
+        // Aclarar en X
+        intensity = hexDigits.slice(3)[randomNumber] // Get the predominant color intensity
+        if (intensity <= 2){
+            hexadClarifyX = hexadClarifyY.replaceAll('00',`00`)
+            hexad = hexadClarifyX
+            backg.style.backgroundColor = hexad;
+            spanColor.textContent = hexad;
+        }else{
+            randomNumber = Math.floor(Math.random() * ((equivHex[intensity] -2) < 0 ? 0 : equivHex[intensity] -2))
+            randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
 
-    // Si no tiene es color negro
+            hexadClarifyX = hexadClarifyY.replaceAll('00',`${hexDigits2.slice(hexDigits2.indexOf(intensity)+3)[randomNumber]+hexDigits2[randomNumber2]}`)
+            backg.style.backgroundColor = hexadClarifyX;
+            spanColor.textContent = hexadClarifyX;
+        }
+        
+
+
+    // If itsn't F's, it's color black/white
     }else if(cantF == 0){
-        let randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
-        let randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
+        randomNumber = Math.floor(Math.random() * ((hexDigits.length)));
+        randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
         hexad = '#';
         hexad += `${hexDigits[randomNumber]+hexDigits[randomNumber2]}`
         hexad += `${hexDigits[randomNumber]+hexDigits[randomNumber2]}`

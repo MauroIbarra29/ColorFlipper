@@ -12,7 +12,7 @@ const hexButton = document.querySelector('.hex-title');
 const searchButton = document.querySelector('.search-title');
 
 // //Search filter variables
-const filtersDiv = document.querySelector('.nav-filtros');
+const filtersDiv = document.querySelector('.nav-filters');
 const redFilter =document.querySelector('.red');
 const blueFilter =document.querySelector('.blue');
 const greenFilter =document.querySelector('.green');
@@ -35,36 +35,35 @@ function getUnderLine(e){
     e.target.classList.toggle('is-title-active');
 }
 function checkFilters(){
-    const filtros = document.querySelector('.nav-filtros');
+    const filters = document.querySelector('.nav-filters');
     const nav = document.querySelector('nav');
     if(searchButton.classList.contains('is-title-active')){
-        filtros.style.visibility='visible';
+        filters.style.visibility='visible';
         nav.style.display='flex';
         nav.style.height='auto';
 
     }else{
-        filtros.style.visibility='hidden';
+        filters.style.visibility='hidden';
         nav.style.display='block';
         nav.style.height='60px';
     }
 }
 
 
-//Evento por default
+//Default Event
 btnClickMe.addEventListener('click',getDefaultColor)
 
-//Activar filtros mediante delegacion de eventos al padre
-
+//Activate filters by event delegation to the parent node
 filtersDiv.addEventListener('click',function(e){
-        if (e.target.classList.contains('filter') || e.target.tagName == 'H3'){ // Si clickeo en el filtro o en sus hijos
+        if (e.target.classList.contains('filter') || e.target.tagName == 'H3'){ // If I click on the filter or its children
             let target = e.target
             if (e.target.tagName == 'H3'){
-                target = e.target.parentNode; //SI clickee en el hijo, devolveme al padre
+                target = e.target.parentNode; //If I click on the child, return me to the parent
             }
-            if (target.classList.contains('filter-active')){ //Si clickeo en un filtro que ya esta activo, lo desactivo
+            if (target.classList.contains('filter-active')){ //If I click on a filter that is already active, I desactivate it
                 target.classList.toggle('filter-active');
             }else{
-                for (let filter of filtersArray){ //Desactivo los filtros activos
+                for (let filter of filtersArray){ //Disable active filters
                     if(filter.classList.contains("filter-active")){
                         filter.classList.toggle('filter-active');
                     }
@@ -74,7 +73,7 @@ filtersDiv.addEventListener('click',function(e){
             
     }
 });
-//Cambiar la forma de seleccionar botones
+//Add events to nav elements
 hexButton.addEventListener('click', (e)=>{
     getUnderLine(e),
     checkFilters(),
