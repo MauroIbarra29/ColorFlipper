@@ -122,6 +122,8 @@ span:hover{
     color: black;
     font-weight: 900;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 2rem;
+
 }
 .bc-button:hover{
     background-color: black;
@@ -142,7 +144,6 @@ aside{
     background-color: #fff;
     border-top: 1px solid black;
     overflow-x: scroll;
-
 
 }
 .aside-container{
@@ -208,8 +209,20 @@ aside{
     cursor: auto;
 }
 
-@media only screen and (max-width:485px) {
-        .bc-button{
-            margin-top: 2rem;
-        }
+@media only screen and (min-width: 900px){
+    aside{
+        height: 100px;
+    }
+    .aside-container{
+        height: 60px;
+    }
+    .color-saved{
+        width: 60px;
+        height: 60px;
+    }
+    .color-saved-cruz{
+        font-size: 1.4rem;
+    }
+    
+
 }
