@@ -1,4 +1,5 @@
 import { getHexColor, getDefaultColor, getSearchedColor, myStorage} from "./getColors.js";
+import {colors} from "./constants.js";
 
 //Boton 'Click Me' , fondo y texto
 const btnClickMe = document.querySelector('.bc-button');
@@ -25,36 +26,50 @@ const filtersArray = [redFilter,blueFilter,violetFilter,lightblueFilter,greenFil
 //Save colors
 const saveButton = document.querySelector('.save-button');
 const divAsideContainer = document.querySelector('.aside-container');
-const savedColors = []
+let savedColors = []
 
+function saveColor(){
+    let textToCopy = spanColor.textContent //color to be save
 
-function saveColor(tex){
-    let textToCopy = spanColor.textContent
     //if the color doesn`t exist in the save colors library
     if(!savedColors.includes(textToCopy)){
-        savedColors.push(textToCopy)
+        savedColors = myStorage.getItem('saveColor').split(',')
+        
+        if(savedColors.includes('')){ //If there  aren`t save colors 
+            savedColors.pop()
+            savedColors.push(textToCopy)
+        }else{  // if there are save colors
+            savedColors.push(textToCopy)
+        }
         //add to the save colors
-        let colorSaved = document.createElement('DIV')
-        colorSaved.classList.add('color-saved')
-        colorSaved.style.backgroundColor = `${textToCopy}`
-
+        let divColorSaved = document.createElement('DIV')
+        divColorSaved.classList.add('color-saved')
+        divColorSaved.style.backgroundColor = `${textToCopy}`
+ 
         let cruzIcon = document.createElement('I')
         cruzIcon.classList.add('fa-regular')
         cruzIcon.classList.add('fa-circle-xmark')
         cruzIcon.classList.add('color-saved-cruz')
-
-        colorSaved.appendChild(cruzIcon);
-        divAsideContainer.appendChild(colorSaved);
+ 
+        divColorSaved.appendChild(cruzIcon);
+        divAsideContainer.appendChild(divColorSaved);
+        myStorage.setItem(`saveColor`,savedColors)
+        
     }   
 }
 
 async function handleSaveColor(e){
     let target= e.target;
+
     // if i click in the cruz icon, remove the element and pop the color from the savedColors array
     if(e.target.classList.contains('color-saved-cruz')){
+        let savedColors = myStorage.getItem('saveColor').split(',')
+
         target =e.target.parentNode
+        
         divAsideContainer.removeChild(target)
         savedColors.splice(savedColors.indexOf(target.style.backgroundColor),1)
+        myStorage.setItem('saveColor',savedColors)
     }else{
         //copy the color
         await navigator.clipboard.writeText(target.style.backgroundColor);
@@ -66,6 +81,7 @@ async function copyCodeSpan(){
     let textToCopy = spanColor.textContent
     try{
         let previuosCopyClipboard = await navigator.clipboard.readText();
+
         // if the hexCode it's has been copied before, dont do anything
         if(previuosCopyClipboard == textToCopy){
     
@@ -76,6 +92,7 @@ async function copyCodeSpan(){
             modalCopy.innerHTML = 'Copied to the Clipboard!'
             modalCopy.classList.add('modal-copy-active')
             spanColor.classList.toggle('modal-copy-already')
+            
             spanColor.appendChild(modalCopy)
             setTimeout(()=>{
                 spanColor.removeChild(modalCopy)
@@ -125,6 +142,23 @@ window.addEventListener('DOMContentLoaded',()=>{
     backg.style.backgroundColor = previousBackground;
     spanColor.textContent = previousBackground;
 
+    if(myStorage.getItem('saveColor') == '' ){
+    }else{
+        let colorsInStorage = myStorage.getItem('saveColor').split(',')
+        for (let color of colorsInStorage){
+            let divColorSaved = document.createElement('DIV')
+            let cruzIcon = document.createElement('I')
+
+            divColorSaved.classList.add('color-saved')
+            divColorSaved.style.backgroundColor = `${color}`
+            cruzIcon.classList.add('fa-regular')
+            cruzIcon.classList.add('fa-circle-xmark')
+            cruzIcon.classList.add('color-saved-cruz')
+            
+            divColorSaved.appendChild(cruzIcon);
+            divAsideContainer.appendChild(divColorSaved);
+        }
+    }
 })
 
 btnClickMe.addEventListener('click',getDefaultColor)
