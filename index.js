@@ -22,9 +22,24 @@ const violetFilter =document.querySelector('.violet');
 const blackFilter =document.querySelector('.black');
 const filtersArray = [redFilter,blueFilter,violetFilter,lightblueFilter,greenFilter,yellowFilter,blackFilter];
 
+//Save colors
+const saveButton = document.querySelector('.save-button');
+const divAsideContainer = document.querySelector('.aside-container');
 
 
-
+function saveColor(){
+    let textToCopy = spanColor.textContent
+    console.log('textToCopy: ',textToCopy);
+    let colorSaved = document.createElement('DIV')
+    colorSaved.classList.add('color-saved')
+    colorSaved.style.backgroundColor = `${textToCopy}`
+    let cruzIcon = document.createElement('I')
+    cruzIcon.classList.add('fa-regular')
+    cruzIcon.classList.add('fa-circle-xmark')
+    cruzIcon.classList.add('color-saved-cruz')
+    colorSaved.appendChild(cruzIcon);
+    divAsideContainer.appendChild(colorSaved);
+}
 async function copyCode(){
     let textToCopy = spanColor.textContent
     try{
@@ -89,7 +104,6 @@ window.addEventListener('DOMContentLoaded',()=>{
 })
 
 btnClickMe.addEventListener('click',getDefaultColor)
-
 //Activate filters by event delegation to the parent node
 filtersDiv.addEventListener('click',function(e){
         if (e.target.classList.contains('filter') || e.target.tagName == 'H3'){ // If I click on the filter or its children
@@ -110,6 +124,7 @@ filtersDiv.addEventListener('click',function(e){
             
     }
 });
+
 //Add events to nav elements
 hexButton.addEventListener('click', (e)=>{
     getUnderLine(e),
@@ -134,5 +149,8 @@ searchButton.addEventListener('click', (e)=>{
 
 });
 
+//Copy hexCode
 spanColor.addEventListener('click',copyCode);
 
+//Save colors
+saveButton.addEventListener('click',saveColor)
