@@ -1,4 +1,4 @@
-import { getHexColor, getDefaultColor, getSearchedColor} from "./getColors.js";
+import { getHexColor, getDefaultColor, getSearchedColor, myStorage} from "./getColors.js";
 
 //Boton 'Click Me' , fondo y texto
 const btnClickMe = document.querySelector('.bc-button');
@@ -21,6 +21,9 @@ const lightblueFilter =document.querySelector('.aqua');
 const violetFilter =document.querySelector('.violet');
 const blackFilter =document.querySelector('.black');
 const filtersArray = [redFilter,blueFilter,violetFilter,lightblueFilter,greenFilter,yellowFilter,blackFilter];
+
+
+
 
 async function copyCode(){
     let textToCopy = spanColor.textContent
@@ -74,6 +77,17 @@ function checkFilters(){
 
 
 //Default Event
+window.addEventListener('DOMContentLoaded',()=>{
+    let previousBackground;
+    if(myStorage.getItem('bg') == null || myStorage.getItem('bg') == ''){
+        myStorage.setItem('bg','#d4e8ee')
+    }
+    previousBackground = myStorage.getItem('bg')
+    backg.style.backgroundColor = previousBackground;
+    spanColor.textContent = previousBackground;
+
+})
+
 btnClickMe.addEventListener('click',getDefaultColor)
 
 //Activate filters by event delegation to the parent node

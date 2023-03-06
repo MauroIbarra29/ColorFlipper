@@ -33,6 +33,12 @@ const equivHex = {
     "F": 15,
 };
 
+//local storage
+export const  myStorage = window.localStorage;
+
+export function saveBackground(background){
+    myStorage.setItem('bg',background);
+}
 export function getHexColor(){
     let hexad = '#'
     for (let index = 0; index < 6; index++) {
@@ -41,13 +47,14 @@ export function getHexColor(){
     }
     backg.style.backgroundColor = hexad;
     spanColor.textContent = hexad;
-    console.log(hexad);
+    saveBackground(hexad)
 }
 
 export function getDefaultColor(){
     let randomNumber =Math.floor(Math.random() * (colorsArray.length))
     backg.style.backgroundColor = colorsArray[randomNumber];
     spanColor.textContent = nameColors[randomNumber]
+    saveBackground(colorsArray[randomNumber])
 }
 
 export function getSearchedColor(){
@@ -120,9 +127,9 @@ function clarifyColor(hexColorFilter){
             randomNumber = Math.floor(Math.random() * ((equivHex[intensity] -2) < 0 ? 0 : equivHex[intensity] -2))
             randomNumber2 = Math.floor(Math.random() * (hexDigits.length));
 
-            hexadClarifyX = hexadClarifyY.replaceAll('00',`${hexDigits2.slice(hexDigits2.indexOf(intensity)+3)[randomNumber]+hexDigits2[randomNumber2]}`)
-            backg.style.backgroundColor = hexadClarifyX;
-            spanColor.textContent = hexadClarifyX;
+            hexad = hexadClarifyY.replaceAll('00',`${hexDigits2.slice(hexDigits2.indexOf(intensity)+3)[randomNumber]+hexDigits2[randomNumber2]}`)
+            backg.style.backgroundColor = hexad;
+            spanColor.textContent = hexad;
         }
         
 
@@ -138,4 +145,5 @@ function clarifyColor(hexColorFilter){
         backg.style.backgroundColor = hexad;
         spanColor.textContent = hexad;
     }
+    saveBackground(hexad)
 }
