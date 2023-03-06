@@ -6,12 +6,12 @@ const backg = document.querySelector('.container');
 const spanColor = document.querySelector('.bc-span');
 
 
-//Main variables
+//Main variables from nav
 const simpleButton = document.querySelector('.simple-title');
 const hexButton = document.querySelector('.hex-title');
 const searchButton = document.querySelector('.search-title');
 
-// //Search filter variables
+//Search filter variables
 const filtersDiv = document.querySelector('.nav-filters');
 const redFilter =document.querySelector('.red');
 const blueFilter =document.querySelector('.blue');
@@ -25,28 +25,52 @@ const filtersArray = [redFilter,blueFilter,violetFilter,lightblueFilter,greenFil
 //Save colors
 const saveButton = document.querySelector('.save-button');
 const divAsideContainer = document.querySelector('.aside-container');
+const savedColors = []
 
 
-function saveColor(){
+function saveColor(tex){
     let textToCopy = spanColor.textContent
-    console.log('textToCopy: ',textToCopy);
-    let colorSaved = document.createElement('DIV')
-    colorSaved.classList.add('color-saved')
-    colorSaved.style.backgroundColor = `${textToCopy}`
-    let cruzIcon = document.createElement('I')
-    cruzIcon.classList.add('fa-regular')
-    cruzIcon.classList.add('fa-circle-xmark')
-    cruzIcon.classList.add('color-saved-cruz')
-    colorSaved.appendChild(cruzIcon);
-    divAsideContainer.appendChild(colorSaved);
+    //if the color doesn`t exist in the save colors library
+    if(!savedColors.includes(textToCopy)){
+        savedColors.push(textToCopy)
+        //add to the save colors
+        let colorSaved = document.createElement('DIV')
+        colorSaved.classList.add('color-saved')
+        colorSaved.style.backgroundColor = `${textToCopy}`
+
+        let cruzIcon = document.createElement('I')
+        cruzIcon.classList.add('fa-regular')
+        cruzIcon.classList.add('fa-circle-xmark')
+        cruzIcon.classList.add('color-saved-cruz')
+
+        colorSaved.appendChild(cruzIcon);
+        divAsideContainer.appendChild(colorSaved);
+    }   
 }
-async function copyCode(){
+
+async function handleSaveColor(e){
+    let target= e.target;
+    // if i click in the cruz icon, remove the element and pop the color from the savedColors array
+    if(e.target.classList.contains('color-saved-cruz')){
+        target =e.target.parentNode
+        divAsideContainer.removeChild(target)
+        savedColors.splice(savedColors.indexOf(target.style.backgroundColor),1)
+    }else{
+        //copy the color
+        await navigator.clipboard.writeText(target.style.backgroundColor);
+    }
+
+}
+
+async function copyCodeSpan(){
     let textToCopy = spanColor.textContent
     try{
         let previuosCopyClipboard = await navigator.clipboard.readText();
+        // if the hexCode it's has been copied before, dont do anything
         if(previuosCopyClipboard == textToCopy){
     
         }else{
+            //Copy the color and add a modal window
             await navigator.clipboard.writeText(textToCopy);
             let modalCopy =document.createElement('DIV')
             modalCopy.innerHTML = 'Copied to the Clipboard!'
@@ -150,7 +174,7 @@ searchButton.addEventListener('click', (e)=>{
 });
 
 //Copy hexCode
-spanColor.addEventListener('click',copyCode);
-
+spanColor.addEventListener('click',copyCodeSpan);
+divAsideContainer.addEventListener('click',handleSaveColor)
 //Save colors
 saveButton.addEventListener('click',saveColor)
