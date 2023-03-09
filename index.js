@@ -30,30 +30,50 @@ let savedColors = []
 
 function saveColor(){
     let textToCopy = spanColor.textContent //color to be save
-    console.log(textToCopy);
+    let abletoAdd = false;
+    
     //if the color doesn`t exist in the save colors library
     if(!savedColors.includes(textToCopy)){
-        savedColors = myStorage.getItem('saveColor').split(',')
-        
-        if(savedColors.includes('')){ //If there  aren`t save colors 
-            savedColors.pop()
-            savedColors.push(textToCopy)
-        }else{  // if there are save colors
-            savedColors.push(textToCopy)
+        savedColors = myStorage.getItem('saveColor')
+
+        if (savedColors == null){
+            myStorage.setItem('saveColor',textToCopy);
+            savedColors = []
+            abletoAdd = true
+        }else{
+            if (!savedColors.includes(textToCopy)){
+                savedColors = savedColors.split(',')
+                abletoAdd = true
+            }
         }
+        
+         if(savedColors.includes('')){ //If there  aren`t save colors 
+            if (savedColors.length > 2){
+                savedColors = savedColors.split(',')
+                abletoAdd = false;
+            }
+            savedColors.pop()
+            
+
+        }
+
         //add to the save colors
-        let divColorSaved = document.createElement('DIV')
-        divColorSaved.classList.add('color-saved')
-        divColorSaved.style.backgroundColor = `${textToCopy}`
+        if(abletoAdd){
+            savedColors.push(textToCopy)
+            let divColorSaved = document.createElement('DIV')
+            divColorSaved.classList.add('color-saved')
+            divColorSaved.style.backgroundColor = `${textToCopy}`
+    
+            let cruzIcon = document.createElement('I')
+            cruzIcon.classList.add('fa-regular')
+            cruzIcon.classList.add('fa-circle-xmark')
+            cruzIcon.classList.add('color-saved-cruz')
+
+            divColorSaved.appendChild(cruzIcon);
+            divAsideContainer.appendChild(divColorSaved);
+            myStorage.setItem(`saveColor`,savedColors)
+        }
  
-        let cruzIcon = document.createElement('I')
-        cruzIcon.classList.add('fa-regular')
-        cruzIcon.classList.add('fa-circle-xmark')
-        cruzIcon.classList.add('color-saved-cruz')
- 
-        divColorSaved.appendChild(cruzIcon);
-        divAsideContainer.appendChild(divColorSaved);
-        myStorage.setItem(`saveColor`,savedColors)
         
     }   
 }
@@ -136,7 +156,6 @@ function checkFilters(){
 window.addEventListener('DOMContentLoaded',()=>{
     let previousBackground;
     if(myStorage.getItem('bg') == null || myStorage.getItem('bg') == ''){
-        console.log('No hay fondo guardado previamente');
         myStorage.setItem('bg','#d4e8ee')
     }
     previousBackground = myStorage.getItem('bg')
@@ -144,7 +163,6 @@ window.addEventListener('DOMContentLoaded',()=>{
     spanColor.textContent = previousBackground;
 
     if(myStorage.getItem('saveColor') == '' || myStorage.getItem('saveColor') == null){
-        console.log('No hay colores previos guardados');
     }else{
         let colorsInStorage = myStorage.getItem('saveColor').split(',')
         for (let color of colorsInStorage){
