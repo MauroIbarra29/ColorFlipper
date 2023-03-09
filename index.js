@@ -30,7 +30,7 @@ let savedColors = []
 
 function saveColor(){
     let textToCopy = spanColor.textContent //color to be save
-
+    console.log(textToCopy);
     //if the color doesn`t exist in the save colors library
     if(!savedColors.includes(textToCopy)){
         savedColors = myStorage.getItem('saveColor').split(',')
@@ -136,13 +136,15 @@ function checkFilters(){
 window.addEventListener('DOMContentLoaded',()=>{
     let previousBackground;
     if(myStorage.getItem('bg') == null || myStorage.getItem('bg') == ''){
+        console.log('No hay fondo guardado previamente');
         myStorage.setItem('bg','#d4e8ee')
     }
     previousBackground = myStorage.getItem('bg')
     backg.style.backgroundColor = previousBackground;
     spanColor.textContent = previousBackground;
 
-    if(myStorage.getItem('saveColor') == '' ){
+    if(myStorage.getItem('saveColor') == '' || myStorage.getItem('saveColor') == null){
+        console.log('No hay colores previos guardados');
     }else{
         let colorsInStorage = myStorage.getItem('saveColor').split(',')
         for (let color of colorsInStorage){
