@@ -1,7 +1,7 @@
 # ColorFlipper
 Color Flipper is a web application that allows you to generate random background colors, specify colors of your preference, and save them for future use. You can also save the last generated background color and copy its hexadecimal code easily.
 
-![](/rsc/Color-Flipper-Review.png)
+![](/rsc/color-flipper-preview.png)
 ### Features
 - Randomly generate background colors with a click of a button.
 - Filter colors by specifying your preferred colors in hexadecimal code.
