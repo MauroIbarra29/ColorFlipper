@@ -26,3 +26,10 @@ To use Color Flipper, simply visit the website and click the "Generate" button t
 
 ### Credits
 Color Flipper was created by Mauro Ibarra. The project was developed as a personal project to practice web development skills.
+
+<h3 font-family="Hiragino Sans GB">Contact Information</h3>
+<ul>
+<p>If you have any questions or comments about this landing page, please feel free to contact me via LinkedIn or email.</p>
+<li>LinkedIn: <a href="http://https://www.linkedin.com/in/mauro-ibarra-665323203/">linkedIn/mauro-ibarra</a></li>
+<li>Email: <a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCJvlqxNhNwJjhFFqdMKkVzWQHhqwDFqZGThNcgGxNjbtDHWwPhGmcWhjBMSJXbwKFQJpWXq">mauroibarra133@gmail.com</a></li>
+</ul>
