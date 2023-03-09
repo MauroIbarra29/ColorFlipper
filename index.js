@@ -28,6 +28,8 @@ const saveButton = document.querySelector('.save-button');
 const divAsideContainer = document.querySelector('.aside-container');
 let savedColors = []
 
+const container = document.querySelector('.container');
+const nav = document.querySelector('nav');
 function saveColor(){
     let textToCopy = spanColor.textContent //color to be save
     let abletoAdd = false;
@@ -149,14 +151,20 @@ function checkFilters(){
         filters.style.visibility='visible';
         nav.style.display='flex';
         nav.style.height='auto';
+        container.style.height = `calc(100vh - ${nav.clientHeight + 60}px)`
+
 
     }else{
         filters.style.visibility='hidden';
         nav.style.display='block';
         nav.style.height='60px';
+        container.style.height = `calc(100vh - ${nav.clientHeight}px)`
     }
 }
 
+function adjustPage(){
+    
+}
 
 //Default Event
 window.addEventListener('DOMContentLoaded',()=>{
@@ -215,7 +223,7 @@ hexButton.addEventListener('click', (e)=>{
     checkFilters(),
     btnClickMe.removeEventListener('click',getDefaultColor),
     btnClickMe.addEventListener('click',getHexColor);
-
+    container.style.height = `calc(100vh - ${nav.style.height})px`
 });
 
 simpleButton.addEventListener('click', (e)=>{
@@ -223,6 +231,9 @@ simpleButton.addEventListener('click', (e)=>{
     checkFilters(),
     btnClickMe.removeEventListener('click',getHexColor),
     btnClickMe.addEventListener('click',getDefaultColor);
+    container.style.height = `calc(100vh - ${nav.style.height})px`
+
+
 });
 searchButton.addEventListener('click', (e)=>{
     getUnderLine(e),
@@ -230,6 +241,7 @@ searchButton.addEventListener('click', (e)=>{
     btnClickMe.removeEventListener('click',getHexColor)
     btnClickMe.removeEventListener('click',getDefaultColor)
     btnClickMe.addEventListener('click',getSearchedColor);
+
 
 });
 
