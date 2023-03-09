@@ -8,9 +8,9 @@ Color Flipper is a web application that allows you to generate random background
 - Save your preferred colors for easy access in the future.
 - Save the last generated background color for later use.
 - Easily copy the hexadecimal code of the current or saved colors.
-- Knowledge Used
 
-Applied concepts:
+
+# Applied concepts
 
 - Clipboard API
 - LocalStorage API
@@ -24,5 +24,5 @@ Applied concepts:
 ### Usage
 To use Color Flipper, simply visit the website and click the "Generate" button to randomly generate a new background color. To filter colors by your preferred colors, click in the "Search" section and select a Filter, then generate a color. To save your preferred colors, click the "Save" button. To copy the hexadecimal code of the current or saved colors, click on the saved color, or in the name/hex code of the color..
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more information.
+Credits
+Color Flipper was created by Mauro Ibarra. The project was developed as a personal project to practice web development skills.
