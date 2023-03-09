@@ -73,8 +73,6 @@ function saveColor(){
             divAsideContainer.appendChild(divColorSaved);
             myStorage.setItem(`saveColor`,savedColors)
         }
- 
-        
     }   
 }
 
@@ -93,6 +91,14 @@ async function handleSaveColor(e){
     }else{
         //copy the color
         await navigator.clipboard.writeText(target.style.backgroundColor);
+        let modalCopy =document.createElement('DIV')
+            modalCopy.innerHTML = 'Copied to the Clipboard!'
+            modalCopy.classList.add('modal-copy-active-color')
+            spanColor.classList.toggle('modal-copy-already')
+            target.appendChild(modalCopy)
+            setTimeout(()=>{
+                target.removeChild(modalCopy)
+            },1000)
     }
 
 }
