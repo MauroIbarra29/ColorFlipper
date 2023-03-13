@@ -145,6 +145,8 @@ aside{
     background-color: #fff;
     border-top: 1px solid black;
     overflow-x: scroll;
+    padding-bottom: 0;
+    margin-bottom: 0;
 
 }
 .aside-container{
